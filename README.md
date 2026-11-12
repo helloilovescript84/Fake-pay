@@ -1,0 +1,29 @@
+
+name: Build Minecraft Mod
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build JAR
+        run: gradle build
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: FakePay-JAR
+          path: build/libs/*.jar
